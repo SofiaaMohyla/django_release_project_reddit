@@ -9,9 +9,15 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+from urllib.parse import urlparse
 
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env(".env")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,8 +31,18 @@ SECRET_KEY = 'django-insecure-meb%+jsqxtmu96xevn2(+1(lth%(@9@@e3j5u5hz@2ev9u7bf(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
 
+
+CLOUDRUN_SERVICE_URL = os.getenv("CLOUDRUN_SERVICE_URL", default=None)
+if CLOUDRUN_SERVICE_URL:
+    parsed_url = urlparse(CLOUDRUN_SERVICE_URL)
+    ALLOWED_HOSTS = [parsed_url.netloc]  # Extract hostname from the URL
+    CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL]  # Trust this origin for CSRF
+    SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")  # Support for proxy headers
+else:
+    # Allow all hosts (not recommended for production)
+    ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
