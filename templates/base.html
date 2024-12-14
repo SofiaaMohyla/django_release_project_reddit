@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readit</title>
+    {% comment %} Bootstrap {% endcomment %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+    {% if request.session.theme == 'dark' %}
+    :root {
+      --bg-color: #181236;
+      --main-color: #211949;
+      --text-color: #bfd0da;
+      --hovered-color: rgb(137, 157, 182);
+      --hovered-i-color: #000;
+      --card-color: gray;
+      --btn-color: #bfd0da6e;
+      --bs-border-color: #dee2e6;
+      --bs-body-color: var(--text-color);
+    }
+    {% else %}
+    :root {
+      --bg-color: #ecebeb;
+      --main-color: #fafafa;
+      --text-color: #212529;
+      --hovered-color: #212529;
+      --hovered-i-color: #fff;
+      --card-color: gray;
+      --bs-border-color: gray;
+      --bs-body-color: var(--text-color);
+    }
+    {% endif %}
+    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+</head>
+<body style="background-color: var(--bg-color);">
+    
+    {% block header %}
+        {% include 'header.html' %}
+    {% endblock header %}
+        
+
+    <div class="container pt-2" style="max-width: 860px; background-color: var(--main-color); min-height: 100%;">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% comment %} Bootstrap {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="{% static 'js/backend.js' %}"></script>
+    <script src="{% static 'js/ratings.js' %}"></script>
+    {% block script %}
+    {% endblock %}
+    <script>
+        function textarea_resize(event, line_height, min_line_count)
+        {
+            var min_line_height = min_line_count * line_height;
+            var obj = event.target;
+            var div = document.getElementById('text_area_div');
+            div.style.width = obj.style.width
+            div.innerHTML = obj.value;
+            var obj_height = div.offsetHeight;
+            if (event.keyCode == 13)
+                obj_height += line_height;
+            else if (obj_height < min_line_height)
+                obj_height = min_line_height;
+            obj.style.height = obj_height + 14 + 'px';
+        }
+    </script>
+</body>
+</html>

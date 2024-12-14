@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col">
+        <h2>{{ branch.name }}</h2>
+        <p>{{ branch.description }}</p>
+    </div>
+    <div class="col">
+        <a style="float: right;" class="btn btn-danger m-2" href="{% url 'post-create' branch.pk %}">Create post</a>
+    </div>
+</div>
+<hr>
+<h4>Order by</h4>
+<a href="{% url 'branch-detail' branch.id %}?order_by=new" class="btn btn-outline-secondary me-2">New</a>
+<a href="{% url 'branch-detail' branch.id %}" class="btn btn-outline-secondary me-2">Popular</a>
+{% for post in posts %}
+    {% include 'forum/objects/post.html' with post=post %}
+{% endfor %}
+
+{% endblock content %}

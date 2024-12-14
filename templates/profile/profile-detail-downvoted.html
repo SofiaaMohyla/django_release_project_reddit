@@ -1,0 +1,22 @@
+{% extends 'profile/profile-detail.html' %}
+
+
+{% block activity %}
+<a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'posts' %}">Posts</a>
+<a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'comments' %}">Comments</a>
+<a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'upvoted' %}">Upvoted</a>
+<a class="btn btn-secondary me-2" href="{% url 'profile' profile.pk 'downvoted' %}">Downvoted</a>
+{% endblock activity %}
+
+{% block objects %}
+<br>
+{% for grade in profile.user.grades.all %}
+    {% if grade.value == -1 %}
+        {% if grade.rating.post %}
+            {% include 'forum/objects/post.html' with post=grade.rating.post branch=grade.rating.post.branch %}
+        {% elif grade.rating.comment %}
+            {% include 'forum/objects/comment.html' with comment=grade.rating.comment collapse_comments=False %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{% endblock objects %}

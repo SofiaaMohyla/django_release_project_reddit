@@ -1,0 +1,9 @@
+<div style="align-items: flex-start" data-rating="{{ object.rating.id }}" class="rating-buttons d-flex me-2">
+    <button class="btn btn-sm btn-outline-dark" style="border: none; border-radius:40%" data-value="1">
+        <i class="fa fa-thumbs-up fs-5 far" data-value="1"></i>
+    </button>
+    <p class="rating-sum">{{ object.rating.get_rating }}</p>
+    <button class="btn btn-sm btn-outline-dark" style="border: none; border-radius:40%" data-value="-1">
+        <i class="fa fa-thumbs-down fs-5 far" data-value="-1"></i>
+    </button>
+</div>

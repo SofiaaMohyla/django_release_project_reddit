@@ -1,0 +1,16 @@
+{% extends 'profile/profile-detail.html' %}
+
+
+{% block activity %}
+<a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'posts' %}">Posts</a>
+<a class="btn btn-secondary me-2" href="{% url 'profile' profile.pk 'comments' %}">Comments</a>
+<a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'upvoted' %}">Upvoted</a>
+<a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'downvoted' %}">Downvoted</a>
+{% endblock activity %}
+
+{% block objects %}
+<br>
+{% for comment in profile.user.comments.all %}
+    {% include 'forum/objects/comment.html' with comment=comment collapse_comments=False %}
+{% endfor %}
+{% endblock objects %}

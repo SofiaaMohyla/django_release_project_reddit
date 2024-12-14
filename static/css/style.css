@@ -1,0 +1,116 @@
+
+
+:root {
+  --bs-heading-color: var(--text-color);
+  --bs-nav-link-color: var(--text-color);
+  --bs-nav-link-hover-color: var(--hovered-color);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--text-color);
+  --bs-btn-border-color: var(--text-color);
+}
+
+nav {
+  background-color: var(--main-color);
+  border-bottom: 1px solid gray;
+}
+
+.nav-link, .navbar-brand {
+  --bs-navbar-active-color: var(--text-color);
+  --bs-navbar-brand-color: var(--text-color);
+}
+
+.btn-danger {
+  --bs-btn-bg: #75ace9;
+  --bs-btn-border-color: #75ace9;
+  --bs-btn-hover-bg: #5492d7;
+  --bs-btn-hover-border-color: #5492d7;
+  --bs-btn-active-bg: white;
+  --bs-btn-active-border-color: white;
+}
+
+.btn-outline-dark {
+  --bs-btn-hover-bg: var(--hovered-color);
+  --bs-btn-hover-color: var(--hovered-i-color);
+  color: var(--text-color);
+}
+
+p, small, a, h2 {
+  color: var(--text-color)
+}
+
+html, body {
+  height: 100%;
+}
+
+.form-control {
+  background-color: transparent;
+}
+
+.bold-text {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.card {
+  border-color: var(--card-color);
+}
+
+.text-area-div {
+  width: 30.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border: solid var(--card-color); 
+  border-width: 2px;
+  border-radius:20px;
+  max-height: 100px;
+  transition: max-height 0.5s ease, border-color 0.2s ease;
+}
+
+.text-area-div:focus-within {
+  border-color: var(--text-color);
+  max-height: 50rem;
+}
+
+.text-area
+{
+  width: 30rem;
+  border-radius: 20px 20px 0 0;
+  outline: none;
+  min-width: 10rem;
+  height: 30px;
+  overflow: hidden;
+  padding: 5px;
+  font-family: Arial;
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: var(--main-color);
+  resize: none;
+  border: none;
+}
+#text_area_div
+{
+  width: 30rem;
+  min-width: 10rem;
+  font-family: Arial;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+ol,ul,li {
+  list-style:none;
+}
+.dark-color {
+  font-weight: 600;
+}
+.dark-color.fa-thumbs-up {
+  color: rgb(40, 81, 216);
+}
+.dark-color.fa-thumbs-down {
+  color: rgb(218, 40, 40);
+}

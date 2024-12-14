@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for branch in branches %}
+    <div class="container border mt-2 mb-3 pt-1" style="border-width: 2px; border-radius: 20px">
+        <div class="card" style="border: none; background-color: transparent">
+            <p class="bold-text m-0">{{ branch.name }}</p>
+            <p class="mb-1">{{ branch.description }}</p>
+            <a href="{{ branch.get_absolute_url }}" class="stretched-link"></a>
+        </div>
+        <div class="d-flex">
+            <p><i class="fa fa-file" aria-hidden="true"></i> {{ branch.posts.all|length }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex mb-3">
+    <img src="{{ profile.get_image_url }}" style="height:150px; width:150px; border-radius:50%; overflow:hidden;">
+    <div class="d-block">
+        <p style="font-size: 2rem;" class="m-0">{{ profile.user.username }}</p>
+        {% if profile.user.is_moderator %}
+        <p style="color: gray; font-size: 1.3rem;" class="ms-2">Moderator</p>
+        {% endif %}
+    </div>
+</div>
+<div class="d-flex">
+    {% block activity %}
+        <a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'posts' %}">Posts</a>
+        <a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'comments' %}">Comments</a>
+        <a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'upvoted' %}">Upvoted</a>
+        <a class="btn btn-outline-secondary me-2" href="{% url 'profile' profile.pk 'downvoted' %}">Downvoted</a>
+    {% endblock activity %}
+</div>
+<div>
+    {% block objects %}
+    {% endblock objects %}
+</div>
+
+{% endblock content %}

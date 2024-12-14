@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="mb-0 row">
+    <div class="col-10">
+        <small>Posted by <a href="{% url 'profile' post.author.profile.pk %}">{{ post.author.username }}</a></small>
+        <small><a href="{{ post.branch.get_absolute_url }}">{{ post.branch.name }}</a></small>
+        <small style="color: gray;" class="m-1">{{ post.created }}</small>
+        <p class="m-0 mb-1 bold-text">{{ post.title }}</p>
+        <p class="mb-1">{{ post.description }}</p>
+    </div>
+    <div class="col d-flex">
+        {% if request.user.is_authenticated %}
+        {% if request.user == post.author or request.user.is_moderator %}
+        <form action="{% url 'post-delete' post.branch.pk post.pk %}" method="post" class="m-2 ms-auto">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Delete">
+        </form>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="d-flex">
+    {% include 'forum/objects/rating-buttons.html' with object=post %}
+    <p><i class="fa fa-comments" aria-hidden="true"></i> {{ post.comments.all|length }}</p>
+</div>
+
+<form action="{% url 'comment-create' post.branch.pk post.pk 0 %}" method="post" style="text-align: center;" class="mb-2" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="text_area_div"></div>
+    
+    <div class="text-area-div">
+        <textarea class="text-area" name="text" rows="1" id="id_text" placeholder="Add a comment" onkeyup="textarea_resize(event, 15, 2);"></textarea>
+        <button type="submit" style="vertical-align: top; float: right" class="btn btn-danger m-2">Comment</button>
+    </div>
+</form>
+
+<div class="mt-1">
+    {% if comments.exists %}
+        <h4>Order by</h4>
+        <a href="{{ post.get_absolute_url }}?order_by=new" class="btn btn-outline-secondary me-2">New</a>
+        <a href="{{ post.get_absolute_url }}" class="btn btn-outline-secondary me-2">Popular</a>
+        <div class="p-0 mt-2">
+            {% for comment in comments %}
+                {% include 'forum/objects/comment.html' with comment=comment collapse_comments=True %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>There are no comments here yet. You can make the first one!</p>
+    {% endif %}
+</div>
+       
+
+
+{% endblock content %}

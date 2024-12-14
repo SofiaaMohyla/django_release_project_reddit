@@ -1,0 +1,48 @@
+<li>
+    <div>
+        <div class="d-flex" style="align-items: flex-end">
+            <div style="align-items: flex-end; flex-direction: row; background-color: transparent; border: none;" class="card d-flex">
+                <img style="border-radius: 50%;" src="{{ comment.author.profile.get_image_url }}" width="38" height="38" class="d-inline-block align-text-top">
+                <small style="font-weight: 500;" class="m-1">{{ comment.author.username }}</small>
+                <a class="stretched-link" href="{% url 'profile' comment.author.profile.pk %}"></a>
+            </div>
+            <small style="color: gray;" class="m-1">{{ comment.created }}</small>
+        </div>
+        <p style="margin-left: 40px; " class="mb-0">{{ comment.text }}</p>
+    </div>
+    <div {% if not comment.comments.exists or not collapse_comments %}style="margin-left: 32px;"{% endif %} class="d-flex">
+        {% if comment.comments.exists and collapse_comments %}
+            <a class="nav-link dropdown-toggle me-2" style="font-weight: 1000;" data-bs-toggle="collapse" href="#CollapseComment{{ comment.pk }}" role="button" aria-expanded="false" aria-controls="CollapseComment{{ comment.pk }}">+</a>
+        {% endif %}
+        {% include 'forum/objects/rating-buttons.html' with object=comment %}
+        <a class="nav-link dropdown-toggle" style="font-weight: 600;" data-bs-toggle="collapse" href="#CollapseReply{{ comment.pk }}" role="button" aria-expanded="false" aria-controls="CollapseReply{{ comment.pk }}">Reply</a>
+        {% if request.user.is_authenticated %}
+        {% if request.user == comment.author or request.user.is_moderator %}
+        <form action="{% url 'comment-delete' comment.post.branch.pk comment.post.pk comment.pk %}" method="post">{% csrf_token %}
+            <button type="submit" style="font-weight: 600;" class="nav-link ms-2">Delete</button>
+        </form>
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class="collapse multi-collapse" id="CollapseReply{{ comment.pk }}">
+        <form action="{% url 'comment-create' comment.post.branch.pk comment.post.pk comment.pk %}" style="border: none;" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="text_area_div"></div>
+            <div class="text-area-div">
+                <textarea class="text-area" name="text" rows="1" id="id_text" placeholder="Add a comment" onkeyup="textarea_resize(event, 15, 2);"></textarea>
+                <button type="submit" style="vertical-align: top; float: right" class="btn btn-danger m-2">Comment</button>
+            </div>
+        </form>
+    </div>
+    {% if comment.comments.exists and collapse_comments %}
+        <div class="collapse multi-collapse" id="CollapseComment{{ comment.pk }}">
+            <ul>
+                {% for reply in comment.comments.all %}
+                    <div class="container mt-2">
+                        {% include 'forum/objects/comment.html' with comment=reply collapse_comments=True %}
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</li>
