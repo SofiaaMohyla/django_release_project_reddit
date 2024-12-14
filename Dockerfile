@@ -20,6 +20,6 @@ COPY . /app/
 
 # Expose the port your application runs on
 EXPOSE 8080
-
+RUN python manage.py collectstatic --noinput
 # Command to run the application
 CMD ["gunicorn", "--bind", "0.0.0.0:8080","reddit.wsgi:application"]
